@@ -1,11 +1,12 @@
+# frozen_string_literal: true
+
 require 'logger'
-require "faraday"
-require "faraday/curl/version"
+require 'faraday'
+require 'faraday/curl/version'
 
 module Faraday
   module Curl
     class Middleware < Faraday::Middleware
-
       def initialize(app, logger = nil, level = nil)
         super(app)
         @logger = logger || ::Logger.new(STDOUT)
@@ -32,9 +33,9 @@ module Faraday
           command << "-d 'body is not string-like, cant render it'"
         end
 
-        command << %Q!"#{env[:url]}"!
+        command << %("#{env[:url]}")
 
-        @logger.send( @level, command.join(" "))
+        @logger.send(@level, command.join(' '))
 
         response = @app.call(env)
         response.env[:curl_command] = command
@@ -48,4 +49,4 @@ module Faraday
   end
 end
 
-Faraday::Request.register_middleware :curl => Faraday::Curl::Middleware
+Faraday::Request.register_middleware curl: Faraday::Curl::Middleware

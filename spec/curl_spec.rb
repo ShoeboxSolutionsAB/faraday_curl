@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 require 'faraday'
 require 'faraday_middleware'
@@ -16,7 +18,7 @@ describe Faraday::Curl::Middleware do
       end
       b.request :curl
       b.adapter :test do |stub|
-        %w[get post put head].each do |method|
+        %w(get post put head).each do |method|
           stub.send(method, '/echo') do |env|
             posted_as = env[:request_headers]['Content-Type']
             [200, { 'Content-Type' => posted_as }, env[:body]]
@@ -44,7 +46,7 @@ describe Faraday::Curl::Middleware do
 
   it 'should render the URL encoded params for the POST request' do
     connection = create_connection :url_encoded
-    response = connection.put('/echo', name: %w[john doe], age: 50)
+    response = connection.put('/echo', name: %w(john doe), age: 50)
     match_command(response, 'PUT', "-H 'Content-Type: application/x-www-form-urlencoded'", "-d 'age=50&name%5B%5D=john&name%5B%5D=doe'", '"http://example.com/echo"')
   end
 end
