@@ -18,11 +18,9 @@ module Faraday
 
         command << "-X #{env[:method].to_s.upcase}"
 
-        if headers = env[:request_headers]
-          headers.each do |key, value|
-            next if value.nil?
-            command << "-H '#{key}: #{quote(value)}'"
-          end
+        env[:request_headers]&.each do |key, value|
+          next if value.nil?
+          command << "-H '#{key}: #{quote(value)}'"
         end
 
         if env[:body].respond_to?(:read)
