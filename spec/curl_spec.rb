@@ -9,7 +9,7 @@ require 'faraday/request/url_encoded'
 Faraday::Request.register_middleware(url_encoded: Faraday::Request::UrlEncoded)
 
 describe Faraday::Curl::Middleware do
-  let(:version) { "-H 'User-Agent: Faraday v0.12.2'" }
+  let(:version) { "-H 'User-Agent: Faraday v0.12.1'" }
 
   def create_connection(*request_middlewares)
     Faraday.new(url: 'http://example.com') do |b|
